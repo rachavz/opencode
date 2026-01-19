@@ -1,4 +1,4 @@
-import { render, TimeToFirstDraw, useRenderer, useTerminalDimensions } from "@opentui/solid"
+import { render, TimeToFirstDraw, useKeyboard, useRenderer, useTerminalDimensions } from "@opentui/solid"
 import { registerOpencodeSpinner } from "./component/register-spinner"
 import { createDefaultOpenTuiKeymap } from "@opentui/keymap/opentui"
 import { Deferred, Effect } from "effect"
@@ -386,6 +386,13 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
   const pluginRuntime = usePluginRuntime()
   const attention = createTuiAttention({ renderer, config: tuiConfig, kv })
   const clipboard = useClipboard()
+
+  useKeyboard(async (evt) => {
+    if (evt.ctrl && evt.name === "c") {
+      const confirmed = await DialogConfirm.show(dialog, "Exit", "Are you sure you want to exit?")
+      if (confirmed) exit()
+    }
+  })
 
   const api = createTuiApi(
     createTuiApiAdapters({
