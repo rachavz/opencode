@@ -467,6 +467,12 @@ function RejectPrompt(props: { onConfirm: (message: string) => void; onCancel: (
         group: "Permission",
         cmd: () => props.onConfirm(input.plainText),
       },
+      {
+        key: "kpenter",
+        desc: "Confirm permission rejection",
+        group: "Permission",
+        cmd: () => props.onConfirm(input.plainText),
+      },
     ],
   }))
 
@@ -607,6 +613,12 @@ function Prompt<const T extends Record<string, string>>(props: {
       },
       {
         key: "return",
+        desc: "Select permission option",
+        group: "Permission",
+        cmd: () => props.onSelect(store.selected),
+      },
+      {
+        key: "kpenter",
         desc: "Select permission option",
         group: "Permission",
         cmd: () => props.onSelect(store.selected),

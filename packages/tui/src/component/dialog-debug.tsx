@@ -47,7 +47,10 @@ export function DialogDebug() {
   }
 
   useBindings(() => ({
-    bindings: [{ key: "return", desc: "Copy debug info", group: "Dialog", cmd: copy }],
+    bindings: [
+      { key: "return", desc: "Copy debug info", group: "Dialog", cmd: copy },
+      { key: "kpenter", desc: "Copy debug info", group: "Dialog", cmd: copy },
+    ],
   }))
 
   return (

@@ -130,6 +130,47 @@ export function QuestionPrompt(props: { request: QuestionRequest; directory?: st
     onCleanup(popMode)
   })
 
+  const submitEdit = () => {
+    const text = textarea?.plainText?.trim() ?? ""
+    const prev = store.custom[store.tab]
+
+    if (!text) {
+      if (prev) {
+        const inputs = [...store.custom]
+        inputs[store.tab] = ""
+        setStore("custom", inputs)
+
+        const answers = [...store.answers]
+        answers[store.tab] = (answers[store.tab] ?? []).filter((x) => x !== prev)
+        setStore("answers", answers)
+      }
+      setStore("editing", false)
+      return
+    }
+
+    if (multi()) {
+      const inputs = [...store.custom]
+      inputs[store.tab] = text
+      setStore("custom", inputs)
+
+      const existing = store.answers[store.tab] ?? []
+      const next = [...existing]
+      if (prev) {
+        const index = next.indexOf(prev)
+        if (index !== -1) next.splice(index, 1)
+      }
+      if (!next.includes(text)) next.push(text)
+      const answers = [...store.answers]
+      answers[store.tab] = next
+      setStore("answers", answers)
+      setStore("editing", false)
+      return
+    }
+
+    pick(text, true)
+    setStore("editing", false)
+  }
+
   useBindings(() => ({
     mode: QUESTION_MODE,
     enabled: store.editing && !confirm(),
@@ -162,46 +203,13 @@ export function QuestionPrompt(props: { request: QuestionRequest; directory?: st
         key: "return",
         desc: "Submit answer edit",
         group: "Question",
-        cmd: () => {
-          const text = textarea?.plainText?.trim() ?? ""
-          const prev = store.custom[store.tab]
-
-          if (!text) {
-            if (prev) {
-              const inputs = [...store.custom]
-              inputs[store.tab] = ""
-              setStore("custom", inputs)
-
-              const answers = [...store.answers]
-              answers[store.tab] = (answers[store.tab] ?? []).filter((x) => x !== prev)
-              setStore("answers", answers)
-            }
-            setStore("editing", false)
-            return
-          }
-
-          if (multi()) {
-            const inputs = [...store.custom]
-            inputs[store.tab] = text
-            setStore("custom", inputs)
-
-            const existing = store.answers[store.tab] ?? []
-            const next = [...existing]
-            if (prev) {
-              const index = next.indexOf(prev)
-              if (index !== -1) next.splice(index, 1)
-            }
-            if (!next.includes(text)) next.push(text)
-            const answers = [...store.answers]
-            answers[store.tab] = next
-            setStore("answers", answers)
-            setStore("editing", false)
-            return
-          }
-
-          pick(text, true)
-          setStore("editing", false)
-        },
+        cmd: submitEdit,
+      },
+      {
+        key: "kpenter",
+        desc: "Submit answer edit",
+        group: "Question",
+        cmd: submitEdit,
       },
     ],
   }))
@@ -250,6 +258,7 @@ export function QuestionPrompt(props: { request: QuestionRequest; directory?: st
         ...(confirm()
           ? [
               { key: "return", desc: "Submit answer", group: "Question", cmd: () => submit() },
+              { key: "kpenter", desc: "Submit answer", group: "Question", cmd: () => submit() },
               { key: "escape", desc: "Reject question", group: "Question", cmd: () => reject() },
               ...tuiConfig.keybinds.get("app.exit"),
             ]
@@ -278,6 +287,7 @@ export function QuestionPrompt(props: { request: QuestionRequest; directory?: st
               { key: "down", desc: "Next answer", group: "Question", cmd: () => moveTo((store.selected + 1) % total) },
               { key: "j", desc: "Next answer", group: "Question", cmd: () => moveTo((store.selected + 1) % total) },
               { key: "return", desc: "Select answer", group: "Question", cmd: () => selectOption() },
+              { key: "kpenter", desc: "Select answer", group: "Question", cmd: () => selectOption() },
               { key: "escape", desc: "Reject question", group: "Question", cmd: () => reject() },
               ...tuiConfig.keybinds.get("app.exit"),
             ]),

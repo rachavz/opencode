@@ -36,6 +36,16 @@ export function DialogConfirm(props: DialogConfirmProps) {
         },
       },
       {
+        key: "kpenter",
+        desc: "Confirm dialog selection",
+        group: "Dialog",
+        cmd: () => {
+          if (store.active === "confirm") props.onConfirm?.()
+          if (store.active === "cancel") props.onCancel?.()
+          dialog.clear()
+        },
+      },
+      {
         key: "left",
         desc: "Previous dialog option",
         group: "Dialog",

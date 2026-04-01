@@ -73,6 +73,15 @@ export function DialogRetryAction(props: DialogRetryActionProps) {
           else dismiss(props, dialog)
         },
       },
+      {
+        key: "kpenter",
+        desc: "Confirm retry option",
+        group: "Dialog",
+        cmd: () => {
+          if (selected() === "action") runAction(props, dialog)
+          else dismiss(props, dialog)
+        },
+      },
     ],
   }))
 

@@ -797,6 +797,42 @@ export function Prompt(props: PromptProps) {
     commands: stashCommands(),
   }))
 
+  useBindings(() => ({
+    target: inputTarget,
+    enabled: inputTarget() !== undefined && !props.disabled,
+    bindings: [
+      // Numpad digits and operators arrive as kp* key names that the editor does
+      // not self-insert, so translate them to text here.
+      ...Array.from({ length: 10 }, (_, digit) => ({
+        key: `kp${digit}`,
+        desc: `Insert ${digit}`,
+        group: "Prompt",
+        cmd: () => {
+          if (!input || input.isDestroyed) return
+          input.insertText(String(digit))
+        },
+      })),
+      ...(
+        [
+          ["kpdivide", "/"],
+          ["kpmultiply", "*"],
+          ["kpminus", "-"],
+          ["kpplus", "+"],
+          ["kpdecimal", "."],
+          ["kpequal", "="],
+        ] as const
+      ).map(([key, text]) => ({
+        key,
+        desc: `Insert ${text}`,
+        group: "Prompt",
+        cmd: () => {
+          if (!input || input.isDestroyed) return
+          input.insertText(text)
+        },
+      })),
+    ],
+  }))
+
   useBindings(() => {
     return {
       target: inputTarget,

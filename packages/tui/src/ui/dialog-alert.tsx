@@ -24,6 +24,15 @@ export function DialogAlert(props: DialogAlertProps) {
           dialog.clear()
         },
       },
+      {
+        key: "kpenter",
+        desc: "Confirm alert",
+        group: "Dialog",
+        cmd: () => {
+          props.onConfirm?.()
+          dialog.clear()
+        },
+      },
     ],
   }))
   return (

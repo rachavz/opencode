@@ -43,6 +43,7 @@ export function DialogSessionDeleteFailed(props: {
   useBindings(() => ({
     bindings: [
       { key: "return", desc: "Confirm recovery option", group: "Dialog", cmd: () => void confirm() },
+      { key: "kpenter", desc: "Confirm recovery option", group: "Dialog", cmd: () => void confirm() },
       { key: "left", desc: "Delete broken session", group: "Dialog", cmd: () => setStore("active", "delete") },
       { key: "up", desc: "Delete broken session", group: "Dialog", cmd: () => setStore("active", "delete") },
       { key: "right", desc: "Restore broken session", group: "Dialog", cmd: () => setStore("active", "restore") },
