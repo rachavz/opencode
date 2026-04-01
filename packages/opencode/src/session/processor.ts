@@ -72,9 +72,31 @@ interface ProcessorContext extends Input {
   needsCompaction: boolean
   currentText: SessionV1.TextPart | undefined
   reasoningMap: Record<string, SessionV1.ReasoningPart>
+  modifiedFiles: Set<string>
 }
 
 type StreamEvent = LLMEvent
+
+// The shared Snapshot service's patch() returns ALL files changed since track(),
+// including modifications from other sessions' tools running concurrently in the
+// same project. Harvest file paths from tool metadata so patch parts can be
+// filtered down to files this processor's tools actually modified.
+function trackModifiedFiles(set: Set<string>, meta: Record<string, any>) {
+  if (!meta) return
+  if (meta.filepath) set.add(meta.filepath)
+  if (meta.filediff?.file) set.add(meta.filediff.file)
+  if (Array.isArray(meta.files)) {
+    for (const f of meta.files) {
+      if (f.filePath) set.add(f.filePath)
+    }
+  }
+  if (Array.isArray(meta.results)) {
+    for (const r of meta.results) {
+      if (r.filepath) set.add(r.filepath)
+      if (r.filediff?.file) set.add(r.filediff.file)
+    }
+  }
+}
 
 export class Service extends Context.Service<Service, Interface>()("@opencode/SessionProcessor") {}
 
@@ -111,6 +133,7 @@ const layer = Layer.effect(
         needsCompaction: false,
         currentText: undefined,
         reasoningMap: {},
+        modifiedFiles: new Set(),
       }
       let aborted = false
 
@@ -180,6 +203,7 @@ const layer = Layer.effect(
             attachments: output.attachments,
           },
         })
+        trackModifiedFiles(ctx.modifiedFiles, output.metadata)
         yield* settleToolCall(toolCallID)
       })
 
@@ -334,6 +358,14 @@ const layer = Layer.effect(
             }
             yield* ensureToolCall(value)
             const input = isRecord(value.input) ? value.input : { value: value.input }
+            if (value.name === "batch" && isRecord(input.tool_calls)) {
+              for (const call of Object.values(input.tool_calls)) {
+                if (isRecord(call) && isRecord(call.parameters)) {
+                  if (typeof call.parameters.filePath === "string") ctx.modifiedFiles.add(call.parameters.filePath)
+                  if (typeof call.parameters.file_path === "string") ctx.modifiedFiles.add(call.parameters.file_path)
+                }
+              }
+            }
             yield* updateToolCall(value.id, (match) => ({
               ...match,
               tool: value.name,
@@ -422,6 +454,7 @@ const layer = Layer.effect(
             throw new Error(value.message)
 
           case "step-start":
+            ctx.modifiedFiles.clear()
             if (!ctx.snapshot) ctx.snapshot = yield* snapshot.track()
             yield* session.updatePart({
               id: PartID.ascending(),
@@ -470,14 +503,16 @@ const layer = Layer.effect(
             yield* session.updateMessage(ctx.assistantMessage)
             if (ctx.snapshot) {
               const patch = yield* snapshot.patch(ctx.snapshot)
-              if (patch.files.length) {
+              const files =
+                ctx.modifiedFiles.size > 0 ? patch.files.filter((f) => ctx.modifiedFiles.has(f)) : patch.files
+              if (files.length) {
                 yield* session.updatePart({
                   id: PartID.ascending(),
                   messageID: ctx.assistantMessage.id,
                   sessionID: ctx.sessionID,
                   type: "patch",
                   hash: patch.hash,
-                  files: patch.files,
+                  files,
                 })
               }
               ctx.snapshot = undefined
@@ -551,20 +586,21 @@ const layer = Layer.effect(
       })
 
       const cleanup = Effect.fn("SessionProcessor.cleanup")(function* () {
-        if (ctx.snapshot) {
-          const patch = yield* snapshot.patch(ctx.snapshot)
-          if (patch.files.length) {
-            yield* session.updatePart({
-              id: PartID.ascending(),
-              messageID: ctx.assistantMessage.id,
-              sessionID: ctx.sessionID,
-              type: "patch",
-              hash: patch.hash,
-              files: patch.files,
-            })
+          if (ctx.snapshot) {
+            const patch = yield* snapshot.patch(ctx.snapshot)
+            const files = ctx.modifiedFiles.size > 0 ? patch.files.filter((f) => ctx.modifiedFiles.has(f)) : patch.files
+            if (files.length) {
+              yield* session.updatePart({
+                id: PartID.ascending(),
+                messageID: ctx.assistantMessage.id,
+                sessionID: ctx.sessionID,
+                type: "patch",
+                hash: patch.hash,
+                files,
+              })
+            }
+            ctx.snapshot = undefined
           }
-          ctx.snapshot = undefined
-        }
 
         if (ctx.currentText) {
           const end = Date.now()

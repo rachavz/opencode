@@ -1,6 +1,7 @@
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { InstanceState } from "@/effect/instance-state"
 import { GlobalBus } from "@/bus/global"
+import { isRecord } from "@/util/record"
 import { EventV2 } from "@opencode-ai/core/event"
 import { Effect, Queue } from "effect"
 import * as Stream from "effect/Stream"
@@ -22,7 +23,7 @@ function eventID() {
   return EventV2.ID.create()
 }
 
-function eventResponse(events: EventV2.Interface) {
+function eventResponse(events: EventV2.Interface, filterSessionID?: string) {
   return Effect.gen(function* () {
     const instance = yield* InstanceState.context
     const workspaceID = yield* InstanceState.workspaceID
@@ -37,6 +38,12 @@ function eventResponse(events: EventV2.Interface) {
           event.location?.directory === instance.directory &&
           (event.location.workspaceID === undefined || event.location.workspaceID === workspaceID),
       ),
+      Stream.filter((event) => {
+        if (filterSessionID === undefined) return true
+        const props = isRecord(event.data) ? event.data : {}
+        if (props.sessionID && props.sessionID !== filterSessionID) return false
+        return true
+      }),
       Stream.map((event) => ({ id: event.id, type: event.type, properties: event.data })),
     )
     const disposed = Stream.callback<{ id: string; type: string; properties: unknown }>((queue) => {
@@ -91,8 +98,9 @@ export const eventHandlers = HttpApiBuilder.group(EventApi, "event", (handlers) 
     const events = yield* EventV2Bridge.Service
     return handlers.handleRaw(
       "subscribe",
-      Effect.fn("EventHttpApi.subscribe")(function* () {
-        return yield* eventResponse(events)
+      Effect.fn("EventHttpApi.subscribe")(function* (ctx) {
+        const filterSessionID = new URL(ctx.request.url, "http://localhost").searchParams.get("sessionID")
+        return yield* eventResponse(events, filterSessionID ?? undefined)
       }),
     )
   }),
