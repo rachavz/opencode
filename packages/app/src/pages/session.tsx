@@ -70,7 +70,13 @@ import {
   createSessionComposerRegionController,
   SessionComposerRegion,
 } from "@/pages/session/composer"
-import { createOpenReviewFile, createSessionTabs, createSizing, shouldShowFileTree } from "@/pages/session/helpers"
+import {
+  createOpenReviewFile,
+  createOpenSessionFileTab,
+  createSessionTabs,
+  createSizing,
+} from "@/pages/session/helpers"
+import { SessionFileTreePanel } from "@/pages/session/session-file-tree-panel"
 import { MessageTimeline } from "@/pages/session/timeline/message-timeline"
 import { createTimelineModel } from "@/pages/session/timeline/model"
 import { type DiffStyle, SessionReviewTab, type SessionReviewTabProps } from "@/pages/session/review-tab"
@@ -454,14 +460,9 @@ export default function Page() {
   const desktopInlineTerminalOnlyOpen = createMemo(
     () => newSessionDesign() && desktopTerminalOpen() && !desktopV2ReviewOpen(),
   )
-  const desktopFileTreeOpen = createMemo(
-    () =>
-      isDesktop() &&
-      shouldShowFileTree({
-        visible: settings.visibility.fileTree(),
-        opened: layout.fileTree.opened(),
-      }),
-  )
+  // The file tree is a VSCode-style explorer docked to the inline-start edge;
+  // it ignores the legacy visibility setting so it is always shown on desktop.
+  const desktopFileTreeOpen = createMemo(() => isDesktop() && layout.fileTree.opened())
   const desktopSessionResizeOpen = createMemo(() =>
     newSessionDesign() ? desktopV2ReviewOpen() || desktopTerminalOpen() : desktopReviewOpen(),
   )
@@ -530,6 +531,15 @@ export default function Page() {
   const openReviewPanel = () => {
     if (!view().reviewPanel.opened()) view().reviewPanel.open()
   }
+
+  const openFileTab = createOpenSessionFileTab({
+    normalizeTab,
+    openTab: tabs().open,
+    pathFromTab: file.pathFromTab,
+    loadFile: file.load,
+    openReviewPanel,
+    setActive: tabs().setActive,
+  })
 
   const info = createMemo(() => (params.id ? sync().session.get(params.id) : undefined))
   const isChildSession = createMemo(() => !!info()?.parentID)
@@ -2257,6 +2267,19 @@ export default function Page() {
         }}
       >
         <Show when={!isDesktop() && !!params.id && !settings.general.newLayoutDesigns()}>{mobileTabs()}</Show>
+
+        <Show when={desktopFileTreeOpen()}>
+          <SessionFileTreePanel
+            diffs={reviewDiffs}
+            diffsReady={reviewReady}
+            hasReview={hasReview}
+            reviewCount={reviewCount}
+            activeDiff={() => activeReviewFile()}
+            focusReviewDiff={focusReviewDiff}
+            onOpenFile={(path) => openFileTab(file.tab(path))}
+            size={size}
+          />
+        </Show>
 
         <div
           classList={{

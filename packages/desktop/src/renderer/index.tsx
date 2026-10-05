@@ -62,15 +62,6 @@ function windowLastActiveUrlKey(windowID: string) {
   return `opencode.desktop.window.${windowID}.last-active-url`
 }
 
-function getLastActiveUrl(windowID: string) {
-  if (typeof localStorage !== "object") return "/"
-  try {
-    const value = localStorage.getItem(windowLastActiveUrlKey(windowID))
-    if (value?.startsWith("/") && !value.startsWith("//")) return value
-  } catch {}
-  return "/"
-}
-
 function setLastActiveUrl(windowID: string, value: string) {
   if (typeof localStorage !== "object") return
   try {
@@ -80,8 +71,8 @@ function setLastActiveUrl(windowID: string, value: string) {
 
 function DesktopMemoryRouter(props: BaseRouterProps & { windowID: string }) {
   const history = createMemoryHistory()
-  const initialUrl = getLastActiveUrl(props.windowID)
-  if (initialUrl !== "/") history.set({ value: initialUrl, replace: true, scroll: false })
+  // Always launch on home so the app starts with the projects list instead of
+  // restoring the last-open session route.
   onCleanup(history.listen((value) => setLastActiveUrl(props.windowID, value)))
   return <MemoryRouter {...props} history={history} />
 }
@@ -387,7 +378,7 @@ function DesktopRoot(props: { windowState: DesktopWindowState }) {
               startup={onboarding.promise}
               serverScoped={
                 <DesktopFirstLaunchOnboarding
-                  initialUrl={getLastActiveUrl(platform.windowID ?? "browser")}
+                  initialUrl="/"
                   onLoaded={onboarding.resolve}
                 />
               }
