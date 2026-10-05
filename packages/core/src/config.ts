@@ -55,7 +55,7 @@ export class Info extends Schema.Class<Info>("Config.Info")({
       description: "Enterprise sharing service configuration",
     }),
   username: Schema.String.pipe(Schema.optional).annotate({
-    description: "Username displayed in conversations and used for telemetry identity",
+    description: "Username displayed in conversations",
   }),
   permissions: Permission.Ruleset.pipe(Schema.optional).annotate({
     description: "Ordered tool permission rules applied to agent tool use",
