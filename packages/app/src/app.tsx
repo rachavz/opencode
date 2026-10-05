@@ -1,5 +1,4 @@
 import "@/index.css"
-import * as Sentry from "@sentry/solid"
 import { I18nProvider } from "@opencode-ai/ui/context"
 import { DialogProvider } from "@opencode-ai/ui/context/dialog"
 import { FileComponentProvider } from "@opencode-ai/ui/context/file"
@@ -406,12 +405,7 @@ export function AppBaseProviders(
       >
         <LanguageProvider locale={props.locale} onNativeTranslations={props.onNativeTranslations}>
           <UiI18nBridge>
-            <ErrorBoundary
-              fallback={(error) => {
-                Sentry.captureException(error)
-                return <ErrorPage error={error} />
-              }}
-            >
+            <ErrorBoundary fallback={(error) => <ErrorPage error={error} />}>
               <QueryProvider>
                 <WslServersProvider>
                   <DialogProvider>
