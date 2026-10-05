@@ -318,7 +318,9 @@ export function Titlebar(props: { update?: TitlebarUpdate; debugTools?: { visibl
                 id: "home.toggle",
                 title: language.t("home.title"),
                 category: language.t("command.category.view"),
-                keybind: "mod+b",
+                // No keybind: mod+b belongs to sidebar.toggle in the layout
+                // commands. Registrations are prepended, so a duplicate here
+                // would shadow the sidebar toggle depending on mount order.
                 hidden: true,
                 onSelect: toggleHome,
               },
