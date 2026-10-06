@@ -1,0 +1,3 @@
+[    8936ms] [WARNING] [command] duplicate command id "common.goBack" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    8939ms] [WARNING] [command] duplicate command id "common.goForward" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    8952ms] [WARNING] [command] duplicate command id "tab.1" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194

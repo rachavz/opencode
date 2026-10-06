@@ -1,0 +1,27 @@
+- generic [ref=f4e1]:
+  - generic [ref=f4e3]:
+    - banner [ref=f4e4]:
+      - generic [ref=f4e5]:
+        - generic [ref=f4e6]: DEV
+        - button "Home" [ref=f4e8]
+        - generic [ref=f4e70]:
+          - link "New session" [ref=f4e71]:
+            - /url: /new-session?draftId=a7a070eb-89d1-44fb-8b2c-a4df38ff13bd
+          - button "Close tab" [ref=f4e77]
+        - button "New session" [ref=f4e12]
+    - main [ref=f4e23]:
+      - generic [ref=f4e98]:
+        - generic [ref=f4e101]:
+          - generic [ref=f4e102]:
+            - textbox "Prompt" [active] [ref=f4e103]
+            - generic: Ask anything, / for commands, @ for context...
+          - generic [ref=f4e104]:
+            - generic [ref=f4e105]:
+              - button "Add images and files" [ref=f4e107]
+              - button "GLM-5.3 Highspeed" [ref=f4e111] [cursor=pointer]
+              - button "Choose model variant" [ref=f4e118] [cursor=pointer]:
+                - generic [ref=f4e119]: default
+            - button "Send" [disabled] [ref=f4e123]
+        - button "New project" [ref=f4e127]
+  - generic:
+    - region "Notifications alt+T"

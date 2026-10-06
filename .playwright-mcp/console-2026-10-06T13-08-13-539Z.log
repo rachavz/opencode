@@ -1,0 +1,10 @@
+[    3329ms] [WARNING] [command] duplicate command id "common.goBack" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    3332ms] [WARNING] [command] duplicate command id "common.goForward" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    5549ms] [WARNING] [command] duplicate command id "command.palette" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    5550ms] [WARNING] [command] duplicate command id "input.focus" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[    5550ms] [WARNING] [command] duplicate command id "settings.open" registered; keeping first entry @ http://localhost:4444/src/context/command.tsx:194
+[   42299ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4444/src/app.tsx?t=1791292127401:0
+[   42301ms] [ERROR] [vite] Failed to reload /src/app.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:4444/@vite/client:808
+[   42553ms] [ERROR] [vite] Failed to reload /src/entry.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:4444/@vite/client:808
+[   42726ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4444/src/app.tsx?t=1791292127401:0
+[   43129ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4444/src/app.tsx?t=1791292136498:0

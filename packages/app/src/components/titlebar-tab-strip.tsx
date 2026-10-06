@@ -168,7 +168,7 @@ function SessionTabEntry(props: {
 }
 
 function DraftTabSlot(props: {
-  tab: Extract<Tab, { type: "draft" }>
+  tab: Tab
   id: string
   index: () => number
   active: () => boolean
@@ -355,6 +355,24 @@ export function TitlebarTabStrip(props: {
                       forceTruncate={props.forceTruncate}
                       serverCtx={serverCtx}
                       onVisibleChange={(visible) => setVisibility(id, visible)}
+                      onNavigate={(element) => {
+                        ref = element
+                        props.onNavigate(tab, element)
+                      }}
+                      onClose={() => props.onClose(tab)}
+                    />
+                  )
+                }
+
+                if (tab.type === "plan") {
+                  const name = tab.directory.split("/").filter(Boolean).pop() ?? tab.directory
+                  return (
+                    <DraftTabSlot
+                      tab={tab}
+                      id={id}
+                      index={visibleIndex}
+                      active={() => props.currentTab() === tab}
+                      title={`${language.t("plan.tab.title")} · ${name}`}
                       onNavigate={(element) => {
                         ref = element
                         props.onNavigate(tab, element)

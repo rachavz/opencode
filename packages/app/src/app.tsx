@@ -66,6 +66,7 @@ import { createSessionLineage } from "@/pages/session/session-lineage"
 
 import { SessionPage, SessionRouteErrorBoundary, TargetSessionRouteContent } from "@/pages/session"
 import { NewHome } from "@/pages/home"
+import { PlanRoute } from "@/pages/plan/plan"
 import { LegacyHome } from "@/pages/home/legacy-home"
 
 const NewSession = lazy(() => import("@/pages/new-session"))
@@ -632,10 +633,21 @@ function Routes(props: { serverScoped?: JSX.Element }) {
       <Show when={settings.general.newLayoutDesigns()}>
         <Route path="/" component={NewHome} />
         <Route path="/:dir/session/:id" component={NewLayoutLegacySessionRedirect} />
+        <Route path="/:dir/plan" component={PlanRoutePage} />
         <Route path="/server/:serverKey/session/:id" component={TargetSessionRoute} />
       </Show>
       <Route path="/new-session" component={DraftRoute} />
     </>
+  )
+}
+
+// The plan page needs the directory-scoped providers; in the new layout the
+// flat /:dir/plan route bypasses the nested DirectoryLayout tree.
+function PlanRoutePage() {
+  return (
+    <DirectoryLayout>
+      <PlanRoute />
+    </DirectoryLayout>
   )
 }
 

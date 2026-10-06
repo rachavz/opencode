@@ -7,12 +7,14 @@ import { useLanguage } from "@/context/language"
 import { useNotification } from "@/context/notification"
 import { usePlatform } from "@/context/platform"
 import { ServerConnection } from "@/context/server"
+import { planHref, useTabs } from "@/context/tabs"
 import { closeHomeProject, errorMessage, homeProjectDirectories } from "@/pages/layout/helpers"
 import { Persist, persisted } from "@/utils/persist"
 import { showToast } from "@/utils/toast"
 import { useDialog } from "@opencode-ai/ui/context/dialog"
 import { createResource } from "solid-js"
 import { createStore } from "solid-js/store"
+import { useNavigate } from "@solidjs/router"
 import type { HomeController } from "./home-controller"
 
 export function createHomeProjectsController(home: HomeController) {
@@ -21,6 +23,8 @@ export function createHomeProjectsController(home: HomeController) {
   const dialog = useDialog()
   const language = useLanguage()
   const notification = useNotification()
+  const tabs = useTabs()
+  const navigate = useNavigate()
   const openSettings = useSettingsCommand()
   const serverManagement = useServerManagementController({ navigateOnAdd: false })
   const [_state, setState, _, ready] = persisted(
@@ -71,6 +75,11 @@ export function createHomeProjectsController(home: HomeController) {
       select: home.project.select,
       add: home.project.add,
       openNewSession: home.project.openProjectNewSession,
+      openPlan: (conn: ServerConnection.Any, directory: string) => {
+        const tab = tabs.addPlanTab({ server: ServerConnection.key(conn), directory })
+        navigate(planHref(directory))
+        return tab
+      },
       edit: (conn: ServerConnection.Any, project: LocalProject) => {
         void import("@/components/dialog-edit-project-v2").then(({ DialogEditProjectV2 }) => {
           void dialog.show(() => <DialogEditProjectV2 server={conn} project={project} />)

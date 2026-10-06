@@ -1,0 +1,14 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - banner [ref=f5e4]:
+      - generic [ref=f5e5]:
+        - generic [ref=f5e6]: DEV
+        - button "Home" [pressed] [ref=f5e8]
+        - generic [ref=f5e15]:
+          - link "New session" [ref=f5e16]:
+            - /url: /new-session?draftId=a7a070eb-89d1-44fb-8b2c-a4df38ff13bd
+          - button "Close tab" [ref=f5e22]
+        - button "New session" [ref=f5e26]
+    - main [ref=f5e29]
+  - generic:
+    - region "Notifications alt+T"

@@ -13,6 +13,7 @@ import { createTabMemory } from "./tab-memory"
 import { nextTabAfterClose, pushClosedTab, removeClosedTabs, takeClosedTab, type ClosedTab } from "./closed-tabs"
 import { createDraftPromptSession, type PromptModel } from "./prompt-state"
 import { migrateTabs } from "./tab-migration"
+import { base64Encode } from "@opencode-ai/core/util/encode"
 
 export type SessionTab = {
   type: "session"
@@ -28,7 +29,13 @@ export type DraftTab = {
   worktree?: string
 }
 
-export type Tab = SessionTab | DraftTab
+export type PlanTab = {
+  type: "plan"
+  server: ServerConnection.Key
+  directory: string
+}
+
+export type Tab = SessionTab | DraftTab | PlanTab
 
 export type TabInfo = {
   title?: string
@@ -41,10 +48,21 @@ type RecentTab = {
 
 export const draftHref = (draftID: string) => `/new-session?draftId=${encodeURIComponent(draftID)}`
 
-export const tabHref = (tab: Tab) =>
-  tab.type === "draft" ? draftHref(tab.draftID) : sessionHref(tab.server, tab.sessionId)
+export const planHref = (directory: string) => `/${base64Encode(directory)}/plan`
 
-export const tabKey = (tab: Tab) => (tab.type === "draft" ? `draft:${tab.draftID}` : `${tab.server}\n${tabHref(tab)}`)
+export const tabHref = (tab: Tab) =>
+  tab.type === "draft"
+    ? draftHref(tab.draftID)
+    : tab.type === "plan"
+      ? planHref(tab.directory)
+      : sessionHref(tab.server, tab.sessionId)
+
+export const tabKey = (tab: Tab) =>
+  tab.type === "draft"
+    ? `draft:${tab.draftID}`
+    : tab.type === "plan"
+      ? `plan:${tab.server}\n${tab.directory}`
+      : `${tab.server}\n${tabHref(tab)}`
 
 export function sessionHasOpenTab(tabs: Tab[], server: ServerConnection.Key, session: Session) {
   return tabs.some((tab) => tab.type === "session" && tab.server === server && tab.sessionId === session.id)
@@ -177,6 +195,20 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
     }
 
     const actions = {
+      addPlanTab: (tab: Omit<PlanTab, "type">) => {
+        const next = { type: "plan" as const, ...tab }
+        const existing = store.find((item) => tabKey(item) === tabKey(next))
+        if (existing) return existing
+        void startTransition(() => {
+          setStore(
+            produce((tabs) => {
+              if (tabs.some((item) => tabKey(item) === tabKey(next))) return
+              tabs.push(next)
+            }),
+          )
+        })
+        return next
+      },
       addSessionTab: (tab: Omit<SessionTab, "type">) => {
         const next = { type: "session" as const, ...tab }
         const existing = store.find((item) => tabKey(item) === tabKey(next))

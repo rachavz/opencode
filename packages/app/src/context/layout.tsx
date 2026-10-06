@@ -93,6 +93,7 @@ export type LayoutRoute =
   | { type: "home" }
   | { type: "draft"; draftID: string; server?: ServerConnection.Key }
   | { type: "dir-new-sesssion"; dir: string; dirBase64: string; server?: ServerConnection.Key }
+  | { type: "plan"; dir: string; dirBase64: string; server?: ServerConnection.Key }
   | { type: "session"; sessionId: string; server?: ServerConnection.Key }
 
 const sessionPath = (key: string) => {
@@ -148,6 +149,8 @@ export const currentRoute = (pathname: string, search: string): LayoutRoute => {
   const dirBase64 = parts[0]
   const dir = decode64(dirBase64)
   if (!dir) return { type: "home" }
+
+  if (parts[1] === "plan") return { type: "plan", dir, dirBase64 }
 
   if (parts[1] !== "session") return { type: "home" }
 

@@ -1,0 +1,27 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e3]:
+    - banner [ref=f4e4]:
+      - generic [ref=f4e5]:
+        - generic [ref=f4e6]: DEV
+        - button "Home" [ref=f4e8]
+        - button "New session" [ref=f4e12]
+        - button "Toggle review" [ref=f4e20]
+    - main [ref=f4e23]:
+      - generic [ref=f4e24]:
+        - generic [ref=f4e26]:
+          - generic [ref=f4e27]: DEV
+          - button "Home" [ref=f4e29]
+          - button "New session" [ref=f4e33]
+        - generic [ref=f4e38]:
+          - navigation "Projects and sessions" [ref=f4e39]:
+            - generic [ref=f4e42]:
+              - button "Open project" [ref=f4e46]
+              - generic [ref=f4e50]:
+                - button "Settings" [ref=f4e52]
+                - button "Help" [ref=f4e57]
+          - main [ref=f4e62]
+  - generic:
+    - region "Notifications alt+T"
+  - generic:
+    - region "Notifications (alt+T)":
+      - list

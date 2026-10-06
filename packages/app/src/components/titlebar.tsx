@@ -218,6 +218,11 @@ export function Titlebar(props: { update?: TitlebarUpdate; debugTools?: { visibl
               if (route.type === "draft") {
                 return tabsStore.find((item) => item.type === "draft" && item.draftID === route.draftID)
               }
+              if (route.type === "plan") {
+                return tabsStore.find(
+                  (item) => item.type === "plan" && item.server === route.server && item.directory === route.dir,
+                )
+              }
               if (route.type === "session") {
                 const main = tabsStore.find(
                   (item) =>

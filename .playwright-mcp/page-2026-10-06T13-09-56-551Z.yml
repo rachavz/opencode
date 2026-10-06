@@ -1,0 +1,121 @@
+- generic [active] [ref=f12e1]:
+  - generic [ref=f12e3]:
+    - banner [ref=f12e4]:
+      - generic [ref=f12e5]:
+        - button "Toggle debug tools" [pressed] [ref=f12e6] [cursor=pointer]: DEV
+        - button "Home" [ref=f12e8]
+        - generic [ref=f12e15]:
+          - link "New session" [ref=f12e16]:
+            - /url: /new-session?draftId=284a6565-45e6-4cea-b5f4-932e0749c0bd
+          - button "Close tab" [ref=f12e22]
+        - button "New session" [ref=f12e26]
+    - main [ref=f12e29]:
+      - generic [ref=f12e30]:
+        - generic [ref=f12e32]:
+          - button "Toggle debug tools" [pressed] [ref=f12e33] [cursor=pointer]: DEV
+          - button "Home" [ref=f12e35]
+          - generic [ref=f12e42]:
+            - link "New session" [ref=f12e43]:
+              - /url: /new-session?draftId=284a6565-45e6-4cea-b5f4-932e0749c0bd
+            - button "Close tab" [ref=f12e49]
+          - button "New session" [ref=f12e53]
+        - generic [ref=f12e56]:
+          - generic [ref=f12e58]:
+            - navigation "Projects and sessions" [ref=f12e59]:
+              - generic [ref=f12e62]:
+                - button "Open project" [ref=f12e66]
+                - generic [ref=f12e70]:
+                  - button "Settings" [ref=f12e72]
+                  - button "Help" [ref=f12e77]
+            - main [ref=f12e85]:
+              - generic [ref=f12e87]:
+                - generic:
+                  - generic:
+                    - generic: Plan
+                    - generic "/tmp/opencode/plan-test"
+                  - button "Start" [ref=f12e89]
+                - generic:
+                  - generic [ref=f12e90]: 0 done, 0 failed, 3 total
+                  - button "Reset statuses" [ref=f12e91]
+                - generic:
+                  - generic [ref=f12e92]: Write the README section about setup
+                  - generic [ref=f12e96]: Add license header
+                  - generic [ref=f12e100]: Refactor utils
+                - generic:
+                  - generic:
+                    - textbox "Describe a task and press Enter" [ref=f12e104]
+                    - button "Add task" [disabled] [ref=f12e105]
+                  - generic:
+                    - generic [ref=f12e106]: Tasks are read from PLAN.md in the project root. Tasks added here are saved by the app.
+                    - button "Reload PLAN.md" [ref=f12e107]
+          - complementary "Development performance diagnostics" [ref=f12e108]:
+            - generic [ref=f12e109]:
+              - generic [ref=f12e112]:
+                - generic [ref=f12e113]: NAV
+                - generic [ref=f12e114]: N/A
+              - generic [ref=f12e117]:
+                - generic [ref=f12e118]: FPS
+                - generic [ref=f12e119]: "12"
+              - generic [ref=f12e122]:
+                - generic [ref=f12e123]: FRAME
+                - generic [ref=f12e124]: "83"
+              - generic [ref=f12e127]:
+                - generic [ref=f12e128]: JANK
+                - generic [ref=f12e129]: "1"
+              - generic [ref=f12e132]:
+                - generic [ref=f12e133]: LONG
+                - generic [ref=f12e134]: 394/2
+              - generic [ref=f12e137]:
+                - generic [ref=f12e138]: DELAY
+                - generic [ref=f12e139]: N/A
+              - generic [ref=f12e142]:
+                - generic [ref=f12e143]: INP
+                - generic [ref=f12e144]: N/A
+              - generic [ref=f12e147]:
+                - generic [ref=f12e148]: CLS
+                - generic [ref=f12e149]: "0.00"
+              - generic [ref=f12e152]:
+                - generic [ref=f12e153]: MEM
+                - generic [ref=f12e154]: 2%
+              - 'button "DIR: LTR" [ref=f12e156]':
+                - generic [ref=f12e157]:
+                  - generic [ref=f12e158]: DIR
+                  - generic [ref=f12e159]: LTR
+    - complementary "Development performance diagnostics" [ref=f12e160]:
+      - generic [ref=f12e161]:
+        - generic [ref=f12e164]:
+          - generic [ref=f12e165]: NAV
+          - generic [ref=f12e166]: N/A
+        - generic [ref=f12e169]:
+          - generic [ref=f12e170]: FPS
+          - generic [ref=f12e171]: "8"
+        - generic [ref=f12e174]:
+          - generic [ref=f12e175]: FRAME
+          - generic [ref=f12e176]: "133"
+        - generic [ref=f12e179]:
+          - generic [ref=f12e180]: JANK
+          - generic [ref=f12e181]: "1"
+        - generic [ref=f12e184]:
+          - generic [ref=f12e185]: LONG
+          - generic [ref=f12e186]: 394/2
+        - generic [ref=f12e189]:
+          - generic [ref=f12e190]: DELAY
+          - generic [ref=f12e191]: N/A
+        - generic [ref=f12e194]:
+          - generic [ref=f12e195]: INP
+          - generic [ref=f12e196]: N/A
+        - generic [ref=f12e199]:
+          - generic [ref=f12e200]: CLS
+          - generic [ref=f12e201]: "0.00"
+        - generic [ref=f12e204]:
+          - generic [ref=f12e205]: MEM
+          - generic [ref=f12e206]: 2%
+        - 'button "DIR: LTR" [ref=f12e208]':
+          - generic [ref=f12e209]:
+            - generic [ref=f12e210]: DIR
+            - generic [ref=f12e211]: LTR
+  - generic:
+    - region "Notifications alt+T"
+  - generic:
+    - region "Notifications (alt+T)":
+      - list

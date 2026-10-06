@@ -1,0 +1,26 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e3]:
+    - banner [ref=f2e4]:
+      - generic [ref=f2e5]:
+        - generic [ref=f2e6]: DEV
+        - button "Home" [pressed] [ref=f2e8]
+        - button "New session" [ref=f2e12]
+    - main [ref=f2e15]:
+      - region "scrollable content" [ref=f2e18]:
+        - generic [ref=f2e19]:
+          - complementary "Projects" [ref=f2e20]:
+            - generic [ref=f2e21]:
+              - generic [ref=f2e22]: Projects
+              - button "Add project" [ref=f2e24]
+            - region "scrollable content" [ref=f2e28]:
+              - button "Add project" [ref=f2e31]
+            - generic [ref=f2e35]:
+              - button "Settings" [ref=f2e36]
+              - button "Help" [ref=f2e40]
+          - region "Recent sessions" [ref=f2e44]:
+            - textbox "Search sessions" [ref=f2e51]
+            - generic [ref=f2e53]:
+              - generic [ref=f2e54]: Nothing here yet
+              - paragraph [ref=f2e55]: Create a session to get started
+  - generic:
+    - region "Notifications alt+T"
