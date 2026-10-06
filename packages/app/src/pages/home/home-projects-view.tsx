@@ -50,6 +50,7 @@ export type HomeProjectsViewProps = {
   onRemoveServer: (server: ServerConnection.Any) => void
   onMoveProject: (server: ServerConnection.Any, worktree: string, index: number) => void
   onSelectProject: (server: ServerConnection.Any, directory: string) => void
+  onOpenProject: (server: ServerConnection.Any, directory: string) => void
   onAddProjects: (server: ServerConnection.Any, directories: string[]) => void
   onOpenProjectNewSession: (server: ServerConnection.Any, directory: string) => void
   onOpenPlan?: (server: ServerConnection.Any, directory: string) => void
@@ -465,7 +466,6 @@ function HomeProjectRow(
       return props.index()
     },
   })
-  let pointerDownSelected: boolean | undefined
   const contextMenuID = () => projectContextMenuID(props.server, props.project.worktree)
   onCleanup(() => {
     const id = contextMenuID()
@@ -492,31 +492,21 @@ function HomeProjectRow(
         aria-current={props.selected ? "page" : undefined}
         disabled={serverUnreachable()}
         onPointerDown={(event) => {
-          // Same-server mouse selection happens on pointerdown (like tabs),
-          // but only ever selects; selectProject toggles, and deselecting here
-          // would fire on every drag before the threshold is met. Cross-server
-          // selection waits for click so reordering a remote server's projects
-          // does not focus that server and load its session index. Touch is
-          // excluded so flick-scrolling the list cannot select rows.
-          pointerDownSelected = undefined
+          // Same-server mouse selection happens on pointerdown (like tabs) so
+          // drag-reordering starts from a highlighted row; the actual project
+          // open happens on click. Cross-server selection waits for click so
+          // reordering a remote server's projects does not focus that server
+          // and load its session index. Touch is excluded so flick-scrolling
+          // the list cannot select rows.
           if (event.button !== 0 || event.pointerType === "touch") return
           if (!props.serverSelected) return
-          pointerDownSelected = props.selected
           if (!props.selected) props.onSelectProject(props.server, props.project.worktree)
         }}
         onClick={(event) => {
           // The drag sensor calls preventDefault on post-drag clicks; never
-          // toggle selection as part of a reorder.
+          // open the project as part of a reorder.
           if (event.defaultPrevented) return
-          // Keyboard activation and touch taps keep the original toggle.
-          if (event.detail === 0 || pointerDownSelected === undefined) {
-            props.onSelectProject(props.server, props.project.worktree)
-            return
-          }
-          // Mouse: pointerdown already selected unselected rows; a plain click
-          // on an already-selected row toggles it off.
-          if (pointerDownSelected) props.onSelectProject(props.server, props.project.worktree)
-          pointerDownSelected = undefined
+          props.onOpenProject(props.server, props.project.worktree)
         }}
       >
         <HomeProjectAvatar project={props.project} />

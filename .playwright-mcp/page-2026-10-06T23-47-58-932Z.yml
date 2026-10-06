@@ -1,0 +1,43 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - button "Toggle debug tools" [pressed] [ref=e6] [cursor=pointer]: DEV
+        - button "Home" [pressed] [ref=e8]
+        - button "New session" [ref=e12]
+    - main [ref=e15]
+    - complementary "Development performance diagnostics" [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e20]:
+          - generic [ref=e21]: NAV
+          - generic [ref=e22]: N/A
+        - generic [ref=e25]:
+          - generic [ref=e26]: FPS
+          - generic [ref=e27]: "4"
+        - generic [ref=e30]:
+          - generic [ref=e31]: FRAME
+          - generic [ref=e32]: "267"
+        - generic [ref=e35]:
+          - generic [ref=e36]: JANK
+          - generic [ref=e37]: "1"
+        - generic [ref=e40]:
+          - generic [ref=e41]: LONG
+          - generic [ref=e42]: 865/1
+        - generic [ref=e45]:
+          - generic [ref=e46]: DELAY
+          - generic [ref=e47]: N/A
+        - generic [ref=e50]:
+          - generic [ref=e51]: INP
+          - generic [ref=e52]: N/A
+        - generic [ref=e55]:
+          - generic [ref=e56]: CLS
+          - generic [ref=e57]: "0.00"
+        - generic [ref=e60]:
+          - generic [ref=e61]: MEM
+          - generic [ref=e62]: 1%
+        - 'button "DIR: LTR" [ref=e64]':
+          - generic [ref=e65]:
+            - generic [ref=e66]: DIR
+            - generic [ref=e67]: LTR
+  - generic:
+    - region "Notifications alt+T"

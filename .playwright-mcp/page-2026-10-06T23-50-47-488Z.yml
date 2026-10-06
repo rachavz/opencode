@@ -1,0 +1,279 @@
+- generic:
+  - generic [aria-hidden]:
+    - generic:
+      - banner:
+        - generic:
+          - button [pressed]: DEV
+          - generic:
+            - button [pressed]
+          - generic:
+            - button
+      - main:
+        - generic:
+          - generic:
+            - region:
+              - generic:
+                - complementary:
+                  - generic:
+                    - generic: Projects
+                    - generic:
+                      - button
+                  - generic:
+                    - region:
+                      - generic:
+                        - generic:
+                          - button:
+                            - generic: Add project
+                  - generic:
+                    - button:
+                      - generic: Settings
+                    - button:
+                      - generic: Help
+      - complementary [ref=f1e97]:
+        - generic [ref=f1e46]:
+          - generic [ref=f1e49]:
+            - generic [ref=f1e50]: NAV
+            - generic [ref=f1e51]: N/A
+          - generic [ref=f1e54]:
+            - generic [ref=f1e55]: FPS
+            - generic [ref=f1e56]: "54"
+          - generic [ref=f1e59]:
+            - generic [ref=f1e60]: FRAME
+            - generic [ref=f1e61]: "333"
+          - generic [ref=f1e64]:
+            - generic [ref=f1e65]: JANK
+            - generic [ref=f1e66]: "5"
+          - generic [ref=f1e69]:
+            - generic [ref=f1e70]: LONG
+            - generic [ref=f1e71]: 314/4
+          - generic [ref=f1e74]:
+            - generic [ref=f1e75]: DELAY
+            - generic [ref=f1e76]: "34"
+          - generic [ref=f1e79]:
+            - generic [ref=f1e80]: INP
+            - generic [ref=f1e81]: "240"
+          - generic [ref=f1e84]:
+            - generic [ref=f1e85]: CLS
+            - generic [ref=f1e86]: "0.00"
+          - generic [ref=f1e89]:
+            - generic [ref=f1e90]: MEM
+            - generic [ref=f1e91]: 1%
+          - button [ref=f1e98]:
+            - generic [ref=f1e94]:
+              - generic [ref=f1e95]: DIR
+              - generic [ref=f1e96]: LTR
+  - dialog [ref=f1e100]:
+    - generic [ref=f1e102]:
+      - heading "Open project" [level=2] [ref=f1e103]
+      - button "Close" [ref=f1e104]
+    - generic [ref=f1e109]:
+      - group [ref=f1e116]:
+        - textbox "Search folders" [active] [ref=f1e118]
+      - generic [ref=f1e120]:
+        - generic [ref=f1e121]: Open project
+        - generic [ref=f1e122]:
+          - button "~/ .abp /" [ref=f1e123]:
+            - generic [ref=f1e128]:
+              - generic [ref=f1e129]: ~/
+              - generic [ref=f1e130]: .abp
+              - generic [ref=f1e131]: /
+          - button "~/ .agents /" [ref=f1e132]:
+            - generic [ref=f1e137]:
+              - generic [ref=f1e138]: ~/
+              - generic [ref=f1e139]: .agents
+              - generic [ref=f1e140]: /
+          - button "~/ .android /" [ref=f1e141]:
+            - generic [ref=f1e146]:
+              - generic [ref=f1e147]: ~/
+              - generic [ref=f1e148]: .android
+              - generic [ref=f1e149]: /
+          - button "~/ .apikey /" [ref=f1e150]:
+            - generic [ref=f1e155]:
+              - generic [ref=f1e156]: ~/
+              - generic [ref=f1e157]: .apikey
+              - generic [ref=f1e158]: /
+          - button "~/ .aspnet /" [ref=f1e159]:
+            - generic [ref=f1e164]:
+              - generic [ref=f1e165]: ~/
+              - generic [ref=f1e166]: .aspnet
+              - generic [ref=f1e167]: /
+          - button "~/ .bun /" [ref=f1e168]:
+            - generic [ref=f1e173]:
+              - generic [ref=f1e174]: ~/
+              - generic [ref=f1e175]: .bun
+              - generic [ref=f1e176]: /
+          - button "~/ .cache /" [ref=f1e177]:
+            - generic [ref=f1e182]:
+              - generic [ref=f1e183]: ~/
+              - generic [ref=f1e184]: .cache
+              - generic [ref=f1e185]: /
+          - button "~/ .callisto /" [ref=f1e186]:
+            - generic [ref=f1e191]:
+              - generic [ref=f1e192]: ~/
+              - generic [ref=f1e193]: .callisto
+              - generic [ref=f1e194]: /
+          - button "~/ .cargo /" [ref=f1e195]:
+            - generic [ref=f1e200]:
+              - generic [ref=f1e201]: ~/
+              - generic [ref=f1e202]: .cargo
+              - generic [ref=f1e203]: /
+          - button "~/ .claude /" [ref=f1e204]:
+            - generic [ref=f1e209]:
+              - generic [ref=f1e210]: ~/
+              - generic [ref=f1e211]: .claude
+              - generic [ref=f1e212]: /
+          - button "~/ .config /" [ref=f1e213]:
+            - generic [ref=f1e218]:
+              - generic [ref=f1e219]: ~/
+              - generic [ref=f1e220]: .config
+              - generic [ref=f1e221]: /
+          - button "~/ .copilot /" [ref=f1e222]:
+            - generic [ref=f1e227]:
+              - generic [ref=f1e228]: ~/
+              - generic [ref=f1e229]: .copilot
+              - generic [ref=f1e230]: /
+          - button "~/ .debug /" [ref=f1e231]:
+            - generic [ref=f1e236]:
+              - generic [ref=f1e237]: ~/
+              - generic [ref=f1e238]: .debug
+              - generic [ref=f1e239]: /
+          - button "~/ .dotnet /" [ref=f1e240]:
+            - generic [ref=f1e245]:
+              - generic [ref=f1e246]: ~/
+              - generic [ref=f1e247]: .dotnet
+              - generic [ref=f1e248]: /
+          - button "~/ .gnupg /" [ref=f1e249]:
+            - generic [ref=f1e254]:
+              - generic [ref=f1e255]: ~/
+              - generic [ref=f1e256]: .gnupg
+              - generic [ref=f1e257]: /
+          - button "~/ .gradle /" [ref=f1e258]:
+            - generic [ref=f1e263]:
+              - generic [ref=f1e264]: ~/
+              - generic [ref=f1e265]: .gradle
+              - generic [ref=f1e266]: /
+          - button "~/ .java /" [ref=f1e267]:
+            - generic [ref=f1e272]:
+              - generic [ref=f1e273]: ~/
+              - generic [ref=f1e274]: .java
+              - generic [ref=f1e275]: /
+          - button "~/ .local /" [ref=f1e276]:
+            - generic [ref=f1e281]:
+              - generic [ref=f1e282]: ~/
+              - generic [ref=f1e283]: .local
+              - generic [ref=f1e284]: /
+          - button "~/ .microsoft /" [ref=f1e285]:
+            - generic [ref=f1e290]:
+              - generic [ref=f1e291]: ~/
+              - generic [ref=f1e292]: .microsoft
+              - generic [ref=f1e293]: /
+          - button "~/ .net /" [ref=f1e294]:
+            - generic [ref=f1e299]:
+              - generic [ref=f1e300]: ~/
+              - generic [ref=f1e301]: .net
+              - generic [ref=f1e302]: /
+          - button "~/ .npm /" [ref=f1e303]:
+            - generic [ref=f1e308]:
+              - generic [ref=f1e309]: ~/
+              - generic [ref=f1e310]: .npm
+              - generic [ref=f1e311]: /
+          - button "~/ .nuget /" [ref=f1e312]:
+            - generic [ref=f1e317]:
+              - generic [ref=f1e318]: ~/
+              - generic [ref=f1e319]: .nuget
+              - generic [ref=f1e320]: /
+          - button "~/ .opencode /" [ref=f1e321]:
+            - generic [ref=f1e326]:
+              - generic [ref=f1e327]: ~/
+              - generic [ref=f1e328]: .opencode
+              - generic [ref=f1e329]: /
+          - button "~/ .pki /" [ref=f1e330]:
+            - generic [ref=f1e335]:
+              - generic [ref=f1e336]: ~/
+              - generic [ref=f1e337]: .pki
+              - generic [ref=f1e338]: /
+          - button "~/ .rapgs /" [ref=f1e339]:
+            - generic [ref=f1e344]:
+              - generic [ref=f1e345]: ~/
+              - generic [ref=f1e346]: .rapgs
+              - generic [ref=f1e347]: /
+          - button "~/ .rassh /" [ref=f1e348]:
+            - generic [ref=f1e353]:
+              - generic [ref=f1e354]: ~/
+              - generic [ref=f1e355]: .rassh
+              - generic [ref=f1e356]: /
+          - button "~/ .rustup /" [ref=f1e357]:
+            - generic [ref=f1e362]:
+              - generic [ref=f1e363]: ~/
+              - generic [ref=f1e364]: .rustup
+              - generic [ref=f1e365]: /
+          - button "~/ .ServiceHub /" [ref=f1e366]:
+            - generic [ref=f1e371]:
+              - generic [ref=f1e372]: ~/
+              - generic [ref=f1e373]: .ServiceHub
+              - generic [ref=f1e374]: /
+          - button "~/ .ssh /" [ref=f1e375]:
+            - generic [ref=f1e380]:
+              - generic [ref=f1e381]: ~/
+              - generic [ref=f1e382]: .ssh
+              - generic [ref=f1e383]: /
+          - button "~/ .steam /" [ref=f1e384]:
+            - generic [ref=f1e389]:
+              - generic [ref=f1e390]: ~/
+              - generic [ref=f1e391]: .steam
+              - generic [ref=f1e392]: /
+          - button "~/ .storybook /" [ref=f1e393]:
+            - generic [ref=f1e398]:
+              - generic [ref=f1e399]: ~/
+              - generic [ref=f1e400]: .storybook
+              - generic [ref=f1e401]: /
+          - button "~/ .templateengine /" [ref=f1e402]:
+            - generic [ref=f1e407]:
+              - generic [ref=f1e408]: ~/
+              - generic [ref=f1e409]: .templateengine
+              - generic [ref=f1e410]: /
+          - button "~/ .var /" [ref=f1e411]:
+            - generic [ref=f1e416]:
+              - generic [ref=f1e417]: ~/
+              - generic [ref=f1e418]: .var
+              - generic [ref=f1e419]: /
+          - button "~/ .venvs /" [ref=f1e420]:
+            - generic [ref=f1e425]:
+              - generic [ref=f1e426]: ~/
+              - generic [ref=f1e427]: .venvs
+              - generic [ref=f1e428]: /
+          - button "~/ .vscode-shared /" [ref=f1e429]:
+            - generic [ref=f1e434]:
+              - generic [ref=f1e435]: ~/
+              - generic [ref=f1e436]: .vscode-shared
+              - generic [ref=f1e437]: /
+          - button "~/ .vscode /" [ref=f1e438]:
+            - generic [ref=f1e443]:
+              - generic [ref=f1e444]: ~/
+              - generic [ref=f1e445]: .vscode
+              - generic [ref=f1e446]: /
+          - button "~/ .zai /" [ref=f1e447]:
+            - generic [ref=f1e452]:
+              - generic [ref=f1e453]: ~/
+              - generic [ref=f1e454]: .zai
+              - generic [ref=f1e455]: /
+          - button "~/ Android /" [ref=f1e456]:
+            - generic [ref=f1e461]:
+              - generic [ref=f1e462]: ~/
+              - generic [ref=f1e463]: Android
+              - generic [ref=f1e464]: /
+          - button "~/ builds /" [ref=f1e465]:
+            - generic [ref=f1e470]:
+              - generic [ref=f1e471]: ~/
+              - generic [ref=f1e472]: builds
+              - generic [ref=f1e473]: /
+          - button "~/ Desktop /" [ref=f1e474]:
+            - generic [ref=f1e479]:
+              - generic [ref=f1e480]: ~/
+              - generic [ref=f1e481]: Desktop
+              - generic [ref=f1e482]: /
+          - button "~/ noVNC /" [ref=f1e483]:
+            - generic [ref=f1e488]:
+              - generic [ref=f1e489]: ~/
+              - generic [ref=f1e490]: noVNC
+              - generic [ref=f1e491]: /

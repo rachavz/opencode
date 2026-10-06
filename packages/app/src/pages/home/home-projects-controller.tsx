@@ -73,6 +73,9 @@ export function createHomeProjectsController(home: HomeController) {
       recentlyClosed: home.project.recentlyClosed,
       homedir: home.project.homedir,
       select: home.project.select,
+      open: (conn: ServerConnection.Any, directory: string) => {
+        tabs.openProject({ server: ServerConnection.key(conn), directory })
+      },
       add: home.project.add,
       openNewSession: home.project.openProjectNewSession,
       openPlan: (conn: ServerConnection.Any, directory: string) => {

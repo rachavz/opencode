@@ -209,14 +209,20 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
     const actions = {
       // Tabs are project-scoped: sessions and drafts render inside a project
       // tab instead of creating their own tab strip entries.
-      openProject(input: { server: ServerConnection.Key; directory: string; href?: string }) {
-        const next = { type: "project" as const, server: input.server, directory: input.directory }
+      ensureProjectTab(input: { server: ServerConnection.Key; directory: string }) {
+        const next = { type: "project" as const, ...input }
         void startTransition(() => {
           setStore(
             produce((tabs) => {
               if (!tabs.some((item) => tabKey(item) === tabKey(next))) tabs.push(next)
             }),
           )
+        })
+        return next
+      },
+      openProject(input: { server: ServerConnection.Key; directory: string; href?: string }) {
+        const next = this.ensureProjectTab(input)
+        void startTransition(() => {
           setRecentKey(tabKey(next))
           navigate(input.href ?? projectHref(input.directory))
         })

@@ -46,6 +46,7 @@ import { playSoundById } from "@/utils/sound"
 import { createAim } from "@/utils/aim"
 import { Worktree as WorktreeState } from "@/utils/worktree"
 import { setSessionHandoff } from "@/pages/session/handoff"
+import { useTabs } from "@/context/tabs"
 import { SessionRouteKey, SessionStateKey } from "@/utils/server-scope"
 import { listAllSessions } from "@/utils/session"
 
@@ -107,6 +108,7 @@ export default function LegacyLayout(props: ParentProps) {
 
   const params = useParams()
   const serverSync = useServerSync()
+  const tabs = useTabs()
   const layout = useLayout()
   const layoutReady = createMemo(() => layout.ready())
   const platform = usePlatform()
@@ -1163,6 +1165,8 @@ export default function LegacyLayout(props: ParentProps) {
   async function navigateToProject(directory: string | undefined) {
     if (!directory) return
     const root = projectRoot(directory)
+    // Sidebar navigation happens inside the project's tab.
+    tabs.ensureProjectTab({ server: server.key, directory: root })
     server.projects.touch(root)
     const project = layout.projects.list().find((item) => item.worktree === root)
     let dirs = project

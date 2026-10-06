@@ -1,0 +1,3 @@
+[  100810ms] [INFO] Autofocus processing was blocked because a document already has a focused element. @ http://localhost:4444/:0
+[  194894ms] [WARNING] computations created outside a `createRoot` or `render` will never be disposed @ http://localhost:4444/node_modules/.vite/deps/chunk-YMY2YRT3.js?v=7b79f589:781
+[  235142ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:4444/@vite/client:864
