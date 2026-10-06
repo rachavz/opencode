@@ -364,6 +364,24 @@ export function TitlebarTabStrip(props: {
                   )
                 }
 
+                if (tab.type === "project") {
+                  const name = tab.directory.split("/").filter(Boolean).pop() ?? tab.directory
+                  return (
+                    <DraftTabSlot
+                      tab={tab}
+                      id={id}
+                      index={visibleIndex}
+                      active={() => props.currentTab() === tab}
+                      title={name}
+                      onNavigate={(element) => {
+                        ref = element
+                        props.onNavigate(tab, element)
+                      }}
+                      onClose={() => props.onClose(tab)}
+                    />
+                  )
+                }
+
                 if (tab.type === "plan") {
                   const name = tab.directory.split("/").filter(Boolean).pop() ?? tab.directory
                   return (

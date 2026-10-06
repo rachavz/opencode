@@ -2,7 +2,7 @@ import { Button } from "@opencode-ai/ui/button"
 import { Icon, type IconProps } from "@opencode-ai/ui/icon"
 import { createEffect, createMemo, createResource, createSignal, For, Show } from "solid-js"
 import { createStore, produce } from "solid-js/store"
-import { useNavigate, useParams } from "@solidjs/router"
+import { useParams } from "@solidjs/router"
 import { Persist, persisted } from "@/utils/persist"
 import { decode64 } from "@/utils/base64"
 import { showToast } from "@/utils/toast"
@@ -36,7 +36,6 @@ export function PlanRoute() {
   const server = useServer()
   const sync = useSync()
   const tabs = useTabs()
-  const navigate = useNavigate()
   const directory = createMemo(() => decode64(params.dir) ?? "")
   const [draft, setDraft] = createSignal("")
   const [adding, setAdding] = createSignal(false)
@@ -136,8 +135,7 @@ export function PlanRoute() {
   const openSession = () => {
     const sessionID = state.sessionID
     if (!sessionID) return
-    const tab = tabs.addSessionTab({ server: server.key, sessionId: sessionID })
-    if (tab.type === "session") navigate(sessionHref(tab.server, tab.sessionId))
+    tabs.openProject({ server: server.key, directory: directory(), href: sessionHref(server.key, sessionID) })
   }
 
   return (

@@ -35,7 +35,13 @@ export type PlanTab = {
   directory: string
 }
 
-export type Tab = SessionTab | DraftTab | PlanTab
+export type ProjectTab = {
+  type: "project"
+  server: ServerConnection.Key
+  directory: string
+}
+
+export type Tab = SessionTab | DraftTab | PlanTab | ProjectTab
 
 export type TabInfo = {
   title?: string
@@ -50,19 +56,25 @@ export const draftHref = (draftID: string) => `/new-session?draftId=${encodeURIC
 
 export const planHref = (directory: string) => `/${base64Encode(directory)}/plan`
 
+export const projectHref = (directory: string) => `/${base64Encode(directory)}/project`
+
 export const tabHref = (tab: Tab) =>
   tab.type === "draft"
     ? draftHref(tab.draftID)
     : tab.type === "plan"
       ? planHref(tab.directory)
-      : sessionHref(tab.server, tab.sessionId)
+      : tab.type === "project"
+        ? projectHref(tab.directory)
+        : sessionHref(tab.server, tab.sessionId)
 
 export const tabKey = (tab: Tab) =>
   tab.type === "draft"
     ? `draft:${tab.draftID}`
     : tab.type === "plan"
       ? `plan:${tab.server}\n${tab.directory}`
-      : `${tab.server}\n${tabHref(tab)}`
+      : tab.type === "project"
+        ? `project:${tab.server}\n${tab.directory}`
+        : `${tab.server}\n${tabHref(tab)}`
 
 export function sessionHasOpenTab(tabs: Tab[], server: ServerConnection.Key, session: Session) {
   return tabs.some((tab) => tab.type === "session" && tab.server === server && tab.sessionId === session.id)
@@ -195,6 +207,21 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
     }
 
     const actions = {
+      // Tabs are project-scoped: sessions and drafts render inside a project
+      // tab instead of creating their own tab strip entries.
+      openProject(input: { server: ServerConnection.Key; directory: string; href?: string }) {
+        const next = { type: "project" as const, server: input.server, directory: input.directory }
+        void startTransition(() => {
+          setStore(
+            produce((tabs) => {
+              if (!tabs.some((item) => tabKey(item) === tabKey(next))) tabs.push(next)
+            }),
+          )
+          setRecentKey(tabKey(next))
+          navigate(input.href ?? projectHref(input.directory))
+        })
+        return next
+      },
       addPlanTab: (tab: Omit<PlanTab, "type">) => {
         const next = { type: "plan" as const, ...tab }
         const existing = store.find((item) => tabKey(item) === tabKey(next))
@@ -264,16 +291,28 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
         // Keep the replacement and navigation atomic so /new-session never renders
         // after its backing draft tab has been removed from the store.
         const active = location.pathname === "/new-session" && location.query.draftId === draftID
-        const next = { type: "session" as const, ...session }
+        const draft = store.find((tab): tab is DraftTab => tab.type === "draft" && tab.draftID === draftID)
         void startTransition(() => {
           setStore(
             produce((tabs) => {
               const index = tabs.findIndex((tab) => tab.type === "draft" && tab.draftID === draftID)
-              if (index !== -1) tabs[index] = next
+              if (index !== -1) tabs.splice(index, 1)
             }),
           )
-          if (recent.key === `draft:${draftID}`) setRecentKey(tabKey(next))
-          if (active) navigateTab(next)
+          const project = draft
+            ? { type: "project" as const, server: draft.server, directory: draft.directory }
+            : undefined
+          if (project) {
+            setStore(
+              produce((tabs) => {
+                if (!tabs.some((tab) => tabKey(tab) === tabKey(project))) tabs.push(project)
+              }),
+            )
+          }
+          if (recent.key === `draft:${draftID}`) {
+            setRecentKey(project ? tabKey(project) : undefined)
+          }
+          if (active) navigate(sessionHref(session.server, session.sessionId))
         })
         memory.remove(`draft:${draftID}`)
         removeDraftPersisted(draftID)

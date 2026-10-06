@@ -1,0 +1,86 @@
+- generic [active] [ref=f15e1]:
+  - generic [ref=f15e3]:
+    - banner [ref=f15e4]:
+      - generic [ref=f15e5]:
+        - button "Toggle debug tools" [pressed] [ref=f15e6] [cursor=pointer]: DEV
+        - button "Home" [ref=f15e8]
+        - generic [ref=f15e13]:
+          - generic [ref=f15e15]:
+            - link "New session" [ref=f15e16]:
+              - /url: /new-session?draftId=284a6565-45e6-4cea-b5f4-932e0749c0bd
+            - button "Close tab" [ref=f15e22]
+          - generic [ref=f15e102]:
+            - link "plan-test" [ref=f15e103]:
+              - /url: /L3RtcC9vcGVuY29kZS9wbGFuLXRlc3Q/project
+            - button "Close tab" [ref=f15e109]
+          - link [ref=f15e113]:
+            - generic [ref=f15e114]:
+              - link "p New session - 2026-10-06T13:54:06.141Z" [ref=f15e115]:
+                - /url: /server/aHR0cDovL2xvY2FsaG9zdDo0MDk2/session/ses_eee81cb4cffe7Xq0NGnlhDZfY5
+                - generic [ref=f15e116]: p
+                - generic [ref=f15e119]: New session - 2026-10-06T13:54:06.141Z
+              - button "Close tab" [ref=f15e121]
+        - button "New session" [ref=f15e26]
+        - button "Toggle review" [ref=f15e129]
+    - main [ref=f15e29]:
+      - generic [ref=f15e133]:
+        - generic [ref=f15e136]:
+          - tablist [ref=f15e137]:
+            - tab "Files Changed 0" [selected] [ref=f15e139]
+            - tab "All files" [ref=f15e141]
+          - tabpanel [ref=f15e142]
+        - generic [ref=f15e145]:
+          - generic [ref=f15e147]:
+            - button "Jump to latest" [ref=f15e148] [cursor=pointer]
+            - region "scrollable content" [ref=f15e152]:
+              - generic [ref=f15e154]:
+                - heading "New session" [level=1] [ref=f15e157]
+                - generic [ref=f15e158]:
+                  - button "View context usage" [ref=f15e160]
+                  - button "More options" [ref=f15e165]
+          - generic [ref=f15e172]:
+            - generic [ref=f15e173]:
+              - textbox "Prompt" [ref=f15e174]
+              - generic: Ask anything, / for commands, @ for context...
+            - generic [ref=f15e175]:
+              - generic [ref=f15e176]:
+                - button "Add images and files" [ref=f15e178]
+                - button "GLM-5.3 Highspeed" [ref=f15e182] [cursor=pointer]
+                - button "Choose model variant" [ref=f15e190] [cursor=pointer]:
+                  - generic [ref=f15e191]: default
+              - button "Send" [disabled] [ref=f15e195]
+    - complementary "Development performance diagnostics" [ref=f15e49]:
+      - generic [ref=f15e50]:
+        - generic [ref=f15e53]:
+          - generic [ref=f15e54]: NAV
+          - generic [ref=f15e55]: "227"
+        - generic [ref=f15e58]:
+          - generic [ref=f15e59]: FPS
+          - generic [ref=f15e60]: "49"
+        - generic [ref=f15e63]:
+          - generic [ref=f15e64]: FRAME
+          - generic [ref=f15e65]: "250"
+        - generic [ref=f15e68]:
+          - generic [ref=f15e69]: JANK
+          - generic [ref=f15e70]: "9"
+        - generic [ref=f15e73]:
+          - generic [ref=f15e74]: LONG
+          - generic [ref=f15e75]: 565/7
+        - generic [ref=f15e78]:
+          - generic [ref=f15e79]: DELAY
+          - generic [ref=f15e80]: "7"
+        - generic [ref=f15e83]:
+          - generic [ref=f15e84]: INP
+          - generic [ref=f15e85]: "136"
+        - generic [ref=f15e88]:
+          - generic [ref=f15e89]: CLS
+          - generic [ref=f15e90]: "0.00"
+        - generic [ref=f15e93]:
+          - generic [ref=f15e94]: MEM
+          - generic [ref=f15e95]: 3%
+        - 'button "DIR: LTR" [ref=f15e97]':
+          - generic [ref=f15e98]:
+            - generic [ref=f15e99]: DIR
+            - generic [ref=f15e100]: LTR
+  - generic:
+    - region "Notifications alt+T"

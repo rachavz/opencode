@@ -34,11 +34,12 @@ import { createMediaQuery } from "@solid-primitives/media"
 import { readSessionTabsRemovedDetail, SESSION_TABS_REMOVED_EVENT } from "@/components/titlebar-session-events"
 import { useGlobal } from "@/context/global"
 import { ServerConnection, useServer } from "@/context/server"
-import { tabKey, useTabs } from "@/context/tabs"
+import { tabKey, useTabs, type DraftTab } from "@/context/tabs"
 import type { PromptSession } from "@/context/prompt"
 import "./titlebar.css"
 import { newTabTooltipKeybind } from "./command-tooltip-keybind"
 import { normalizeSessionInfo } from "@/utils/session"
+import { pathKey } from "@/utils/path-key"
 
 const legacyTitlebarHeight = 40
 const v2TitlebarHeight = 36
@@ -215,15 +216,30 @@ export function Titlebar(props: { update?: TitlebarUpdate; debugTools?: { visibl
 
             const matchRoute = (route: LayoutRoute) => {
               if (route.type === "home") return
-              if (route.type === "draft") {
-                return tabsStore.find((item) => item.type === "draft" && item.draftID === route.draftID)
+              const projectTabFor = (directory: string | undefined, routeServer: string | undefined) => {
+                if (!directory) return
+                const key = pathKey(directory)
+                return tabsStore.find((item) => {
+                  if (item.type !== "project") return false
+                  if (item.server !== (routeServer ?? server.key)) return false
+                  return pathKey(item.directory) === key
+                })
               }
+              if (route.type === "project") return projectTabFor(route.dir, route.server)
+              if (route.type === "draft") {
+                const draft = tabsStore.find((item): item is DraftTab => item.type === "draft" && item.draftID === route.draftID)
+                return projectTabFor(draft?.directory, draft?.server ?? route.server)
+              }
+              if (route.type === "dir-new-sesssion") return projectTabFor(route.dir, route.server)
               if (route.type === "plan") {
-                return tabsStore.find(
-                  (item) => item.type === "plan" && item.server === route.server && item.directory === route.dir,
+                return (
+                  projectTabFor(route.dir, route.server) ??
+                  tabsStore.find((item) => item.type === "plan" && item.server === route.server && item.directory === route.dir)
                 )
               }
               if (route.type === "session") {
+                const byProject = projectTabFor(session()?.directory, route.server)
+                if (byProject) return byProject
                 const main = tabsStore.find(
                   (item) =>
                     item.type === "session" && item.server === route.server && item.sessionId === route.sessionId,

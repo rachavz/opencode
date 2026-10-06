@@ -4,6 +4,7 @@ import { useDialog } from "@opencode-ai/ui/context/dialog"
 import { useQuery } from "@tanstack/solid-query"
 import { DateTime } from "luxon"
 import { type Accessor, createEffect, createMemo, createRoot, type JSX, startTransition } from "solid-js"
+import { base64Encode } from "@opencode-ai/core/util/encode"
 import { produce } from "solid-js/store"
 import { useCommand } from "@/context/command"
 import {
@@ -14,7 +15,7 @@ import {
 import type { LocalProject } from "@/context/layout"
 import { useLanguage } from "@/context/language"
 import { ServerConnection } from "@/context/server"
-import { sessionHasOpenTab, useTabs } from "@/context/tabs"
+import { sessionHasOpenTab, projectHref, useTabs } from "@/context/tabs"
 import { compareSessionTime, displayName, errorMessage, projectForSession } from "@/pages/layout/helpers"
 import { useSessionTabAvatarState } from "@/pages/layout/project-avatar-state"
 import { pathKey } from "@/utils/path-key"
@@ -152,10 +153,7 @@ export function createHomeSessionsController(home: HomeController) {
               const directory = entry.project?.worktree ?? entry.directory
               ctx.projects.open(directory)
               ctx.projects.touch(directory)
-              void startTransition(() => {
-                const tab = tabs.addSessionTab({ server, sessionId: sessionID })
-                tabs.select(tab)
-              })
+              tabs.openProject({ server, directory, href: `/${base64Encode(directory)}/session/${sessionID}` })
             }}
           />
         ))
@@ -195,13 +193,14 @@ export function createHomeSessionsController(home: HomeController) {
         if (!ctx) return
         ctx.projects.open(directory)
         if (options?.background) {
-          tabs.addSessionTab({ server: ServerConnection.key(conn), sessionId: session.id })
+          tabs.openProject({ server: ServerConnection.key(conn), directory, href: projectHref(directory) })
           return
         }
         ctx.projects.touch(directory)
-        void startTransition(() => {
-          const tab = tabs.addSessionTab({ server: ServerConnection.key(conn), sessionId: session.id })
-          tabs.select(tab)
+        tabs.openProject({
+          server: ServerConnection.key(conn),
+          directory,
+          href: `/${base64Encode(directory)}/session/${session.id}`,
         })
       },
       archive: async (session: Session) => {
